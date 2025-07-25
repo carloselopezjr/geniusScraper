@@ -14,11 +14,12 @@ def getInfo(url: str) -> dict:
     info = {}
 
     page = requests.get(url, headers=headers)
-    soup = BeautifulSoup(page.content, features="html.parser")
+    soup = BeautifulSoup(page.content, features="lxml")
 
     try:
 
-        cover = soup.find("img", attrs={"class": "SizedImage__Image-sc-39a204ed-1 dycjBx SongHeader-desktop__SizedImage-sc-9b4225cf-15 dsPjCq"}).get("src")
+        #cover = soup.find_all("img")
+        cover = soup.find("img", attrs={"class": "SizedImage__NoScript-sc-39a204ed-2 ZRulI"}).get("src")
         title = soup.find("span", attrs={"class": "SongHeader-desktop__HiddenMask-sc-9b4225cf-13 kHUuuE"}).get_text()
         lyrics = soup.find("div", attrs={"class": "Lyrics__Container-sc-3d1d18a3-1 bjajog"}).get_text()
 
@@ -35,6 +36,13 @@ def getInfo(url: str) -> dict:
 
 url = input("Please enter a URL from Genius: ")
 
+
+
 giveInfo = getInfo(url)
 
-print(giveInfo)
+coverArt = str(giveInfo["cover"])
+
+coverAscii = AsciiArt.from_url(coverArt)
+
+coverAscii.to_terminal()
+tprint(giveInfo["title"])
