@@ -18,7 +18,6 @@ def getInfo(url: str) -> dict:
 
     try:
 
-        #cover = soup.find_all("img")
         cover = soup.find("img", attrs={"class": "SizedImage__NoScript-sc-39a204ed-2 ZRulI"}).get("src")
         title = soup.find("span", attrs={"class": "SongHeader-desktop__HiddenMask-sc-9b4225cf-13 kHUuuE"}).get_text()
         lyrics = soup.find("div", attrs={"class": "Lyrics__Container-sc-3d1d18a3-1 bjajog"}).get_text()
@@ -33,16 +32,29 @@ def getInfo(url: str) -> dict:
     except Exception as e:
         print(f"error:\n {e}")
 
-
+print("\n\nhttps://genius.com/ \n\n")
 url = input("Please enter a URL from Genius: ")
 
 
 
 giveInfo = getInfo(url)
 
-coverArt = str(giveInfo["cover"])
+strCover = str(giveInfo["cover"])
 
-coverAscii = AsciiArt.from_url(coverArt)
+coverAscii = AsciiArt.from_url(strCover)
 
-coverAscii.to_terminal()
-tprint(giveInfo["title"])
+
+try:
+
+    coverAscii.image = ImageEnhance.Contrast(coverAscii.image).enhance(2)
+    coverAscii.image = ImageEnhance.Brightness(coverAscii.image).enhance(1.5)
+
+except Exception as e:
+    print(f"Couldn't enhance image, defaulting to original \n Real Error Message: {e}")
+    coverAscii.to_terminal()
+
+coverAscii.to_terminal(columns=225)
+
+print("\n\n")
+
+tprint(giveInfo["title"], font="rnd-xlarge")
