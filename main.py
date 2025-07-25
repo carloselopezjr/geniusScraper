@@ -29,7 +29,7 @@ def getInfo(url: str) -> dict:
 
         return info
     except Exception as e:
-        print(f"error:\n {e}")
+        print(f"Error, song probably isn't part of an album on genius, workaround in the making\nError Code:\n {e}")
 
 print("\n\nhttps://genius.com/ \n\n")
 url = input("Please enter a URL from Genius: ")
