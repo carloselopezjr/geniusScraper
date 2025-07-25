@@ -20,11 +20,10 @@ def getInfo(url: str) -> dict:
 
         cover = soup.find("img", attrs={"class": "SizedImage__NoScript-sc-39a204ed-2 ZRulI"}).get("src")
         title = soup.find("span", attrs={"class": "SongHeader-desktop__HiddenMask-sc-9b4225cf-13 kHUuuE"}).get_text()
-        lyrics = soup.find("div", attrs={"class": "Lyrics__Container-sc-3d1d18a3-1 bjajog"}).get_text()
 
         info["cover"] = cover
         info["title"] = title
-        info["lyrics"] = lyrics
+
 
         
 
@@ -48,12 +47,13 @@ try:
 
     coverAscii.image = ImageEnhance.Contrast(coverAscii.image).enhance(2)
     coverAscii.image = ImageEnhance.Brightness(coverAscii.image).enhance(1.5)
+    coverAscii.to_terminal(columns=225)
 
 except Exception as e:
     print(f"Couldn't enhance image, defaulting to original \n Real Error Message: {e}")
-    coverAscii.to_terminal()
+    coverAscii.to_terminal(columns=225)
 
-coverAscii.to_terminal(columns=225)
+
 
 print("\n\n")
 
